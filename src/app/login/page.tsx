@@ -1,3 +1,5 @@
+'use client'
+
 export default function Login() {
   return (
     <div className="h-screen w-screen flex items-center justify-center">
@@ -25,6 +27,10 @@ export default function Login() {
               className="mt-1 p-2 rounded-md border border-gray-300 outline-none focus:ring-2 focus:ring-blue-300"
             />
           </div>
+
+          <button type="submit" className="w-full mt-2 rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700">
+            Logar
+          </button>
         </form>
       </div>
     </div>
