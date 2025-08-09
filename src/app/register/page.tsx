@@ -1,14 +1,32 @@
 'use client'
 
+import {CriarRegistro} from "@/app/register/actions"
+import { useRouter } from "next/navigation";
+
+type FormEvt = React.FormEvent<HTMLFormElement>;
+
 export default function Register() {
+  const router = useRouter();
+
+  async function escutarRegistro(event : FormEvt) {
+    event.preventDefault();
+
+    const dados = new FormData(event.currentTarget);
+    const {criado} = await CriarRegistro(dados);
+    
+    if(criado) router.push('/login');
+    else alert ("erro ao inserir!");
+  }
+
   return (
     <div className="h-screen w-screen flex items-center justify-center">
       <div className="bg-blue-500 bg-opacity-50 w-full md:w-1/2 lg:w-1/3 p-6 rounded-md shadow">
         <p className="text-xl font-semibold text-center text-white">Tela de Registro</p>
-        <form className="mt-4 space-y-3">
+        <form onSubmit={escutarRegistro} className="mt-4 space-y-3">
           <div className="flex flex-col">
             <label htmlFor="nome">Nome completo:</label>
             <input 
+              name="nome"
               type="text" 
               id="nome" 
               placeholder="Digite seu nome" 
@@ -20,6 +38,7 @@ export default function Register() {
           <div className="flex flex-col">
             <label htmlFor="email">E-mail</label>
             <input
+              name="email"
               type="email"
               id="email"
               placeholder="Digite seu email"
@@ -31,6 +50,7 @@ export default function Register() {
           <div className="flex flex-col">
             <label htmlFor="date">Data de nascimento</label>
             <input 
+              name="dataNascimento"
               type="date" 
               id="data" 
               placeholder="Entre com sua data de nascimento" 
@@ -51,6 +71,7 @@ export default function Register() {
           <div className="flex flex-col">
             <label htmlFor="login">Login</label>
             <input 
+              name="login"
               type="text" 
               id="login" 
               placeholder="Digite seu login" 
@@ -62,6 +83,7 @@ export default function Register() {
           <div className="flex flex-col">
             <label htmlFor="senha">Senha</label>
             <input
+              name="senha"
               type="password"
               id="senha"
               placeholder="Digite sua senha"
