@@ -14,13 +14,14 @@ export async function BuscarRegistro(dados : FormData)
 
     var resultado = await Usuario.findOne({login: login, senha: senha});
 
-    if (resultado.length > 0)
+    if (resultado)
     {
         const payload = {
-            sub: '1234'
+            sub: resultado._id.toString(),
+            login: resultado.login
         }
         const token = criarChave(payload);
-        return {autenticado: true};
+        return {autenticado: true, token};
     }
 
     return{autenticado: false};

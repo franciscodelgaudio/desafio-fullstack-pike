@@ -12,10 +12,12 @@ export default function Login() {
   async function escutaValidacao(event : FormEvt){
     event.preventDefault();
     const dados = new FormData(event.currentTarget);
-    const {autenticado} = await BuscarRegistro(dados);
+    const {autenticado, token} = await BuscarRegistro(dados);
 
-    if (autenticado)
+    if (autenticado && token)
     {
+      alert("Login validado com sucesso!");
+      document.cookie = `token=${token}; path=/;`;
       router.push('/dashboard');
     }
 

@@ -14,7 +14,10 @@ export default function Register() {
     const dados = new FormData(event.currentTarget);
     const {criado} = await CriarRegistro(dados);
     
-    if(criado) router.push('/login');
+    if(criado){
+      alert("Registro criado com sucesso!");
+      router.push('/login');
+    } 
     else alert ("erro ao inserir!");
   }
 
