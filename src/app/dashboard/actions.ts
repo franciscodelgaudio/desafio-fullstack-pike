@@ -4,6 +4,8 @@
 
 import {cookies} from 'next/headers'
 import jwt from "jsonwebtoken";
+import { connectDB } from '@/lib/connectiondb';
+import { Task } from '@/models/task';
 
 export async function ValidarToken()
 {
@@ -22,4 +24,26 @@ export async function ValidarToken()
             return {autenticado: false};
         }
     }
+}
+
+export async function CriarTarefa(dados : FormData) {
+    await connectDB();
+
+    const nomeTarefa = String(dados.get("nomeTarefa") ?? "");
+    const descTarefa = String(dados.get("descTarefa") ?? "");
+    const status = String(dados.get("status") ?? "");
+    const prioridade = String(dados.get("prioridade") ?? "");
+    const dataStr = String(dados.get("data") ?? "");
+
+    const novaTarefa = await Task.create(
+        {
+            nomeTarefa,
+            descTarefa,
+            status,
+            prioridade,
+            dataStr
+        }
+    );
+
+    return {criado: true}
 }
