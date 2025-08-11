@@ -37,7 +37,7 @@ export async function CriarTarefa(dados : FormData) {
     const descTarefa = String(dados.get("descTarefa") ?? "");
     const status = String(dados.get("status") ?? "");
     const prioridade = String(dados.get("prioridade") ?? "");
-    const dataStr = String(dados.get("data") ?? "");
+    const data = String(dados.get("data") ?? "");
 
     const novaTarefa = await Task.create(
         {
@@ -46,11 +46,16 @@ export async function CriarTarefa(dados : FormData) {
             descTarefa,
             status,
             prioridade,
-            dataStr
+            data
         }
     );
 
     return {criado: true}
+}
+
+export async function EditarTarefa()
+{
+
 }
 
 export async function BuscarTarefa()
@@ -66,12 +71,35 @@ export async function BuscarTarefa()
     {
         listaTasks[i]._id = (listaTasks[i]._id as Types.ObjectId).toString();
         listaTasks[i].idUsuario = listaTasks[i].idUsuario.toString();
-        // listaTasks[i].nomeTarefa = listaTasks[i].nomeTarefa.toString();
-        // listaTasks[i].descTarefa = listaTasks[i].descTarefa.toString();
-        // listaTasks[i].status = listaTasks[i].status.toString();
-        // listaTasks[i].prioridade = listaTasks[i].prioridade.toString();
-        // listaTasks[i].data = listaTasks[i].data.toString();
     }
 
-    return {tarefas: listaTasks};
+    return {listaTasks};
+}
+
+export async function DeletarTarefa(idTask : Types.ObjectId)
+{
+    await Task.findByIdAndDelete(idTask);
+
+    return {deletado: true}
+}
+
+export async function AtualizarTarefa(id: string, dados: FormData) {
+  await connectDB();
+
+  const objectID = new Types.ObjectId(id);
+
+  const update = {
+    nomeTarefa: String(dados.get("nomeTarefa") || ""),
+    descTarefa: String(dados.get("descTarefa") || ""),
+    status: String(dados.get("status") || ""),
+    prioridade: String(dados.get("prioridade") || ""),
+    data: String(dados.get("data") || ""),
+  };
+
+  try {
+    await Task.updateOne({ _id: objectID }, { $set: update });
+  } catch (error) {
+    console.error("Erro ao atualizar tarefa:", error);
+    throw error;
+  }
 }

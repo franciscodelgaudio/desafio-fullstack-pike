@@ -1,5 +1,6 @@
 import { CriarTarefa } from "./actions";
 import { useState } from "react";
+import {useRouter} from "next/navigation"
 
 type FormEvt = React.FormEvent<HTMLFormElement>;
 type PropsCriarTask = {
@@ -9,16 +10,20 @@ type PropsCriarTask = {
 
 export function CriarTask({aberto, setAberto} : PropsCriarTask)
 {
+  const router = useRouter();
+  
   async function NovaTarefa(event : FormEvt) {
     event.preventDefault();
     const dados = new FormData(event.currentTarget);
 
     await CriarTarefa(dados);
+    router.refresh();
   }
 
   return( 
     <>{aberto && (
-      <div className="p-6 bg-white-500 w-2/5 rounded-xl shadow-xl">
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="p-6 bg-white w-2/5 rounded-xl shadow-xl">
         <div className="flex flex-row justify-between items-center">
           <h1 className="p-3 font-bold text-2xl flex flex-col">Criar Tarefa</h1>
           <div className="flex flex-col p-0">
@@ -47,18 +52,18 @@ export function CriarTask({aberto, setAberto} : PropsCriarTask)
             <div className="flex flex-row justify-between p-3">
               <div className="flex flex-col">
                 <label className="font-bold text-sm pb-2">Status</label>
-                <select className="rounded-xl bg-gray-100 p-2 px-4" name="status" id="cor-select">
-                    <option value="masculino">Nao Iniciado</option>
-                    <option value="feminino">Em processo</option>
-                    <option value="outro">Pronto</option>
+                <select className="rounded-xl bg-gray-100 p-2 px-4" name="status" id="status">
+                    <option value="Não Iniciado">Não Iniciado</option>
+                    <option value="Em Processo">Em Processo</option>
+                    <option value="Pronto">Pronto</option>
                 </select>
               </div>
               <div className="flex flex-col">
                 <label className="font-bold text-sm pb-2">Prioridada</label>
-                <select className="rounded-xl bg-gray-100 p-2 px-4" name="prioridade" id="cor-select">
-                    <option value="masculino">alta</option>
-                    <option value="feminino">media</option>
-                    <option value="outro">baixa</option>
+                <select className="rounded-xl bg-gray-100 p-2 px-4" name="prioridade" id="prioridade">
+                    <option value="alta">alta</option>
+                    <option value="media">media</option>
+                    <option value="baixa">baixa</option>
                 </select>
               </div>
               <div className="flex flex-col">
@@ -78,6 +83,7 @@ export function CriarTask({aberto, setAberto} : PropsCriarTask)
             </div>
           </form>
       </div>
+    </div>
     )}
     </>
   );
