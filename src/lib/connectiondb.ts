@@ -6,7 +6,7 @@ let cached = (global as any).mongoose || { conn: null, promise: null };
 (global as any).mongoose = cached;
 
 // Utiliza cache para saber se o usuario ja esta conectado e nao precisar reconectar toda vez com o banco
-export async function connectDB() {
+export default async function connectDB() {
   if (cached.conn) {
     return cached.conn;
   }

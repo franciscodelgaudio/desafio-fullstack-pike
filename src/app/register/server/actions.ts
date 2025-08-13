@@ -1,7 +1,7 @@
-'use server';
+"use server";
 
 import {Usuario} from "@/models/usuario"
-import { connectDB } from "@/lib/connectiondb";
+import connectDB from "@/lib/connectiondb";
 
 export async function CriarRegistro(dados : FormData)
 {
@@ -27,5 +27,5 @@ export async function CriarRegistro(dados : FormData)
         }
     );
 
-    return {criado: true}
+    return {usuarioCriado: true}
 }

@@ -1,13 +1,10 @@
 import { redirect } from "next/navigation";
-import { ValidarToken } from "../dashboard/actions";
-import LoginForm from "./loginform"; // novo arquivo com seu form
+import { LerToken } from "@/lib/jwt";
+import Login from "./client/login"; // novo arquivo com seu form
 
-export default async function LoginPage() {
-  const { autenticado } = await ValidarToken();
+export default async function page() {
+  const { autenticado } = await LerToken();
+  if (autenticado) redirect("/projeto");
 
-  if (autenticado) {
-    redirect("/dashboard");
-  }
-
-  return <LoginForm />;
+  return <Login />;
 }

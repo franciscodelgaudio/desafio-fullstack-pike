@@ -1,47 +1,36 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Pencil } from "lucide-react";
-import { AtualizarTarefa } from "./actions"; // sua função de update no banco
+import { AtualizarTarefa } from "@/app/tarefas/server/actions.js";
 
-type Props = {
-  tarefa: {
-    _id: string;
-    nomeTarefa: string;
-    descTarefa: string;
-    status: string;
-    prioridade: string;
-    data: string;
-  };
-};
-
-export default function EditarTask({ tarefa }: Props) {
+export default function AtualizarTarefaClient({ tarefa, onEditado }) {
   const [aberto, setAberto] = useState(false);
-  const router = useRouter();
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const dados = new FormData(event.currentTarget);
     await AtualizarTarefa(tarefa._id, dados);
-    router.refresh();
     setAberto(false);
+    onEditado();
   }
 
   return (
     <>
-      <button onClick={() => setAberto(true)} className="px-2">
+    <div className="flex flex-col items-center h-10 justify-center hover:bg-gray-300 rounded-md">
+      <button onClick={() => setAberto(true)} className="px-2 cursor-pointer ">
         <Pencil size={20} />
       </button>
+    </div>
 
       {aberto && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-          <div className="p-6 bg-white w-2/5 rounded-xl shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center border-red-100">
+          <div className="p-6 bg-white w-2/5 rounded-xl shadow-2xl border-1 border-gray-200">
             <div className="flex flex-row justify-between items-center">
               <h1 className="p-3 font-bold text-2xl">Editar Tarefa</h1>
               <button
                 onClick={() => setAberto(false)}
-                className="bg-gray-500 p-1 px-3 border font-bold rounded-md"
+                className="bg-white p-1 px-3 bg-white border-1 border-gray-300 font-bold rounded-xl cursor-pointer hover:bg-red-200"
               >
                 X
               </button>
@@ -109,7 +98,7 @@ export default function EditarTask({ tarefa }: Props) {
               <div className="grid">
                 <button
                   type="submit"
-                  className="m-3 justify-self-end bg-blue-500 text-white rounded-md p-2 px-5"
+                  className="m-3 justify-self-end bg-blue-500 text-white rounded-md p-2 px-5 cursor-pointer hover:bg-blue-700"
                 >
                   Salvar Alterações
                 </button>
