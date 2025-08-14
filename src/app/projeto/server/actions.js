@@ -3,6 +3,7 @@
 import connectDB from "@/lib/connectiondb"
 import { Projeto } from "../../../models/projeto";
 import { LerToken } from '@/lib/jwt';
+import { promiseHooks } from "v8";
 
 export async function CriarProjeto(dados) {
     await connectDB();
@@ -25,7 +26,7 @@ export async function CriarProjeto(dados) {
     return{projetoCriado: true};
 }
 
-export async function LerProjeto() {
+export async function LerProjeto(idProjeto) {
     await connectDB();
 
     const {payload} = await LerToken();
@@ -40,6 +41,14 @@ export async function LerProjeto() {
     }
 
     return projetos;
+}
+
+export async function NomeProjeto(idProjeto) {
+    await connectDB();
+
+    var projeto = await Projeto.findOne({idProjeto}).lean();
+
+    return projeto.nomeProjeto.toString();    
 }
 
 export async function AtualizarProjeto(id, dados) {

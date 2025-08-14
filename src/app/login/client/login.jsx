@@ -5,13 +5,11 @@ import LerRegistro from "@/app/login/server/actions";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-type FormEvt = React.FormEvent<HTMLFormElement>;
-
 export default function Login() {
 
     const router = useRouter();
   
-    async function handleLogin(event : FormEvt){
+    async function handleLogin(event){
         event.preventDefault();
         const dados = new FormData(event.currentTarget);
         const {autenticado, token} = await LerRegistro(dados);
