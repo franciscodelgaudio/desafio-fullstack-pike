@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/dashboard/server/actions.js", "src/app/dashboard/client/LerTarefa.jsx", "src/app/dashboard/client/ExcluirTarefa.jsx", "src/app/dashboard/client/AtualizarTarefa.jsx", "src/app/dashboard/client/dashboard.jsx", "src/app/register/client/register.jsx", "src/app/dashboard/client/CriarTarefa.jsx", "src/lib/connectiondb.js", "src/app/register/page.jsx", "src/app/login/client/login.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/dashboard/server/actions.js", "src/app/dashboard/client/LerTarefa.jsx", "src/app/dashboard/client/ExcluirTarefa.jsx", "src/app/dashboard/client/AtualizarTarefa.jsx", "src/app/dashboard/client/dashboard.jsx", "src/app/register/client/register.jsx", "src/app/dashboard/client/CriarTarefa.jsx", "src/lib/connectiondb.js", "src/app/register/page.jsx", "src/app/login/client/login.jsx", "src/app/register/server/actions.js", "src/app/login/server/actions.js"],
   "exclude": ["node_modules"]
 }
