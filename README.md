@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📋 Gerenciador de Projetos & Tarefas (Next.js + MongoDB)
 
-## Getting Started
+Aplicação fullstack para **gerenciar projetos e tarefas** usando **Next.js 13+**, **React**, **TailwindCSS** e **MongoDB/Mongoose**.  
+Inclui CRUD completo de tarefas e integração com bibliotecas como `lucide-react` (ícones) e `date-fns` (formatação de datas).
 
-First, run the development server:
+---
+
+## 🚀 Tecnologias usadas
+
+- **Frontend**: Next.js 13+ (App Router) + React + TailwindCSS
+- **Backend**: Next.js Server Actions + MongoDB/Mongoose
+- **Bibliotecas auxiliares**:
+  - [`lucide-react`](https://lucide.dev/) – ícones SVG
+  - [`date-fns`](https://date-fns.org/) – manipulação e formatação de datas
+  - [`mongoose`](https://mongoosejs.com/) – ODM para MongoDB
+
+---
+
+## ⚙️ Instalação
 
 ```bash
+# 1. Clone o repositório
+git clone https://seu-repo.git
+cd nome-do-projeto
+
+# 2. Instale dependências principais
+npm install next react react-dom mongoose
+
+# 3. Instale bibliotecas auxiliares
+npm install lucide-react date-fns
+
+# 4. Instale e configure o TailwindCSS
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+# (Configure o tailwind.config.js e globals.css conforme a doc oficial)
+
+# 5. Crie o arquivo .env
+cp .env.example .env
+# Edite com suas variáveis reais (MongoDB URI, porta, etc.)
+
+# 6. Rode em desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 7. Acesse no navegador
+http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧱 Modelos de Dados
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 👤 Usuario
+```ts
+{
+  nome: String,
+  email: String,
+  dataNascimento: Date,
+  genero: String,
+  login: String,
+  senha: String
+}
+```
 
-## Learn More
+### 📁 Projeto
+```js
+{
+  idUsuario: ObjectId (ref Usuario),
+  nomeProjeto: String,
+  descricaoProjeto: String
+}
+```
 
-To learn more about Next.js, take a look at the following resources:
+### ✅ Task
+```ts
+{
+  idProjeto: ObjectId (ref Projeto),
+  nomeTarefa: String,
+  descTarefa: String,
+  status: String,
+  prioridade: String,
+  data: Date
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔗 Fluxo da Aplicação
 
-## Deploy on Vercel
+```mermaid
+graph LR
+A[Interface React/Tailwind] -->|ações do usuário| B[Next.js Server Actions]
+B -->|consulta/mutação| C[(MongoDB)]
+C -->|dados retornados| B
+B -->|JSON| A
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📌 Funcionalidades
+- Criar, listar, atualizar e excluir tarefas.
+- Ícones interativos (`lucide-react`) para ações.
+- Formatação de datas (`date-fns`).
+- Interface responsiva com TailwindCSS.
+
+---
+
+## 📄 Licença
+MIT (ou a de sua escolha).
