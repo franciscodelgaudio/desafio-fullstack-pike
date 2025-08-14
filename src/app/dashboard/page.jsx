@@ -5,8 +5,7 @@ export default function page()
 {
     return(
         <>
-        <Dashboard/>
-        <MostrarTarefasClient/>
+            <Dashboard/>
         </>
     );
 }

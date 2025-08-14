@@ -46,7 +46,6 @@ export async function LerTarefa(idProjeto) {
   return tarefas;
 }
 
-
 export async function AtualizarTarefa(id, dados) {
   await connectDB();
 
