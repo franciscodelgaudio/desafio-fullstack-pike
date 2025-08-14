@@ -4,7 +4,7 @@ import connectDB from "@/lib/connectiondb"
 import { Usuario } from "@/models/usuario"
 import CriarToken from "@/lib/jwt";
 
-export default async function LerRegistro(dados : FormData)
+export default async function LerRegistro(dados)
 {
     await connectDB();
 

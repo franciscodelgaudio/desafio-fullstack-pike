@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI!;
+const MONGODB_URI = process.env.MONGODB_URI;
 
-let cached = (global as any).mongoose || { conn: null, promise: null };
-(global as any).mongoose = cached;
+let cached = global.mongoose || { conn: null, promise: null };
+global.mongoose = cached;
 
 // Utiliza cache para saber se o usuario ja esta conectado e nao precisar reconectar toda vez com o banco
 export default async function connectDB() {

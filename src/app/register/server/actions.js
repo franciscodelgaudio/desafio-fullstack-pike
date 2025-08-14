@@ -3,7 +3,7 @@
 import {Usuario} from "@/models/usuario"
 import connectDB from "@/lib/connectiondb";
 
-export async function CriarRegistro(dados : FormData)
+export async function CriarRegistro(dados)
 {
     await connectDB();
 
