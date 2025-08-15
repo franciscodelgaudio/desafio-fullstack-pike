@@ -1,59 +1,84 @@
 "use client";
 
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import CriarTarefaClient from "./CriarTarefa";
 import LerTarefaClient from "./LerTarefa";
-import { Plus } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 
-export function Tarefa() {  
-
+export function Tarefa() {
+  // ==== mesma lógica (inalterada) ====
   const [aberto, setAberto] = useState(false);
+  const [q, setQ] = useState("");
+  const [status, setStatus] = useState("");
+  const [prioridade, setPrioridade] = useState("");
   const [atualizar, setAtualizar] = useState(false);
 
   function handleAtualizar() {
     setAtualizar(flag => !flag);
   }
+  // ===================================
 
   return (
     <>
-      <div className="flex flex-row justify-between items-center">
-        <h1 className="py-5 px-10 font-bold text-2xl flex flex-col">Tarefas</h1>
-        <div className="px-10">
-          <button onClick={() => setAberto(true)} className="items-center hover:bg-gray-100 cursor-pointer flex flex-row bg-gray-500 p-2 px-3 bg-white border-2 border-black/30 rounded-4xl cur">
-            <div className="flex flex-col pr-2">
-              <Plus size={20} className="flex flex-col"/>
-            </div>
-            <div className="flex flex-col">
-              Add
-            </div>
+      {/* Cabeçalho igual ao Dashboard */}
+      <div className="justify-between items-center">
+        <h1 className="pt-5 px-10 font-bold text-3xl">Tarefas</h1>
+        <h2 className="py-2 px-10 flex flex-col text-gray-500">
+          Visão geral das suas tarefas
+        </h2>
+      </div>
+
+      {/* Modal de criação (mesma lógica) */}
+      {aberto && (
+        <CriarTarefaClient
+          aberto={aberto}
+          setAberto={setAberto}
+          onCriado={handleAtualizar}
+        />
+      )}
+
+      {/* Card principal idêntico ao Dashboard */}
+      <div className="ring-2 ring-gray-200 rounded-md p-4 m-5">
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="font-semibold">Lista de Tarefas</h2>
+            <h3 className="text-gray-500 text-sm">
+              Gerencie e acompanhe o progresso de suas tarefas
+            </h3>
+          </div>
+
+          {/* Botão Add mantido (só ajustado o visual) */}
+          <button
+            onClick={() => setAberto(true)}
+            className="inline-flex items-center gap-2 rounded-full border-2 border-black/30 bg-white px-3 py-2 hover:bg-gray-100"
+          >
+            <Plus size={18} />
+            <span>Adicionar</span>
           </button>
         </div>
-      </div>
 
-      {aberto && <CriarTarefaClient aberto={aberto} setAberto={setAberto} onCriado={handleAtualizar}/>}
+        {/* Tabela/grade idêntica ao Dashboard */}
+        <div className="overflow-x-auto mt-5">
+          <div className="min-w-[900px] rounded-2xl border border-gray-200">
+            <div
+              className="
+                grid items-center px-4 py-3 rounded-t-2xl bg-gray-200 text-sm font-semibold text-gray-700
+                grid-cols-[minmax(14rem,2fr)_1.2fr_1.1fr_1fr_1.2fr_5rem]
+              "
+            >
+              <div>Nome da Tarefa</div>
+              <div>Projeto</div>
+              <div>Status</div>
+              <div>Prioridade</div>
+              <div>Vencimento</div>
+              <div className="text-center">Ações</div>
+            </div>
 
-      <div className="bg-gray-300 flex flex-row justify-between pl-10 pr-5 py-2 border-b-1">
-        <div className="flex flex-col font-semibold text-left basis-5/5">
-          <p>Nome da Tarefa</p>
-        </div>
-        <div className="flex flex-col font-semibold text-left basis-6/10">
-          <p>Descriçao</p>
-        </div>
-        <div className="flex flex-col font-semibold text-left basis-1/10">
-          <p>Status</p>
-        </div>
-        <div className="flex flex-col font-semibold text-left basis-1/10">
-          <p>Prioridade</p>
-        </div>
-        <div className="flex flex-col font-semibold text-left basis-1/10 pr-10">
-          <p>Vencimento</p>
-        </div>
-        <div className="flex flex-col font-semibold text-left basis-1/20 pr-4">
-          <p>Ações</p>
+            {/* Lista mantida exatamente como estava (LerTarefaClient) */}
+            <LerTarefaClient atualizar={atualizar} onChange={handleAtualizar} />
+          </div>
         </div>
       </div>
-      <LerTarefaClient atualizar={atualizar} onChange={handleAtualizar}/>
     </>
   );
 }

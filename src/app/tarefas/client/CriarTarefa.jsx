@@ -70,7 +70,6 @@ export default function CriarTarefaClient({aberto, setAberto, onCriado})
               <div className="flex flex-col">
                 <label className="font-bold text-sm pb-2">Prioridada</label>
                 <select className="rounded-xl bg-gray-100 p-2 px-4" name="prioridade" id="prioridade">
-                    <option value="Urgente">Urgente </option>
                     <option value="Alta">Alta</option>
                     <option value="Média">Média</option>
                     <option value="Baixa">Baixa</option>
