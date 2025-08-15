@@ -4,8 +4,10 @@ import React, { useState } from "react";
 import { Search } from "lucide-react";
 import { MostrarTarefasClient } from "../client/MostrarTarefas";
 
+const COLS = "grid-cols-[minmax(14rem,2fr)_1.2fr_1.1fr_1fr_1.2fr_5rem]";
+
 export default function Dashboard() {
-  const [q, setQ] = useState("");
+  const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [prioridade, setPrioridade] = useState("");
   const [atualizar, setAtualizar] = useState(false);
@@ -30,8 +32,8 @@ export default function Dashboard() {
             <input
               className="flex-1 bg-transparent outline-none placeholder:text-gray-400 py-2"
               placeholder="Buscar tarefas..."
-              value={q}
-              onChange={e => setQ(e.target.value)}
+              value={search}
+              onChange={e => setSearch(e.target.value)}
             />
           </div>
 
@@ -71,10 +73,8 @@ export default function Dashboard() {
         <div className="overflow-x-auto">
           <div className="min-w-[900px] rounded-2xl border border-gray-200">
             <div
-              className="
-                grid items-center px-4 py-3 rounded-t-2xl bg-gray-200 text-sm font-semibold text-gray-700
-                grid-cols-[minmax(14rem,2fr)_1.2fr_1.1fr_1fr_1.2fr_5rem]
-              "
+              className={`
+                grid items-center px-4 py-3 rounded-t-2xl bg-gray-200 text-sm font-semibold text-gray-700 ${COLS}`}
             >
               <div>Nome da Tarefa</div>
               <div>Projeto</div>
@@ -88,7 +88,7 @@ export default function Dashboard() {
             <MostrarTarefasClient
               atualizar={atualizar}
               onChange={handleAtualizar}
-              filtros={{ q, status, prioridade }}
+              filtros={{ search, status, prioridade }}
             />
           </div>
         </div>

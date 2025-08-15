@@ -4,40 +4,31 @@ import connectDB from "@/lib/connectiondb";
 import { Task } from "@/models/task";
 import { LerToken } from "@/lib/jwt";
 import mongoose from "mongoose";
+import { Projeto } from "@/models/projeto";
+
 
 export async function MostrarTarefas() {
   await connectDB();
 
   const { payload } = await LerToken();
-  const idUsuario = payload?.sub;
-  const uid = mongoose.Types.ObjectId.createFromHexString(String(idUsuario));
+  if (!payload?.sub) return [];
 
-  const tasks = await Task.aggregate([
-    {
-      $lookup: {
-        from: "projetos",              // <-- confirme que é "projetos"
-        localField: "idProjeto",
-        foreignField: "_id",
-        as: "proj",
-      },
-    },
-    { $unwind: "$proj" },
-    { $match: { "proj.idUsuario": uid } }, // <-- seu campo é idUsuario
-    {
-      $project: {
-        _id: 1,
-        nomeTarefa: 1,
-        descTarefa: 1,
-        status: 1,
-        prioridade: 1,
-        data: 1,
-        idProjeto: 1,                    // mantém o ObjectId original (se precisar)
-        projetoNome: "$proj.nomeProjeto" // nome do projeto já resolvido
-      },
-    },
-    { $sort: { data: -1, _id: -1 } },
-  ]);
+  const uid = new mongoose.Types.ObjectId(String(payload.sub));
 
+  // Retorna um vetor apenas com o id e o nome do projeto
+  const projetos = await Projeto.find({ idUsuario: uid })
+    .select({ _id: 1, nomeProjeto: 1 })
+    .lean();
+
+  // retorna um vetor apenas com o id dos projetos
+  const idsProjetos = projetos.map(p => p._id);
+  // retorna um mapa que relaciona o id com o nome do projeto
+  const mapaNomes = new Map(projetos.map(p => [p._id.toString(), p.nomeProjeto]));
+
+  // busca todas as taerfas com o id do projeto
+  const tasks = await Task.find({ idProjeto: { $in: idsProjetos } }).lean();
+
+  // a funcao retorna um vetor de tarefas com as condicoes nome e apenas sob o id do projeto
   return tasks.map(t => ({
     id: t._id.toString(),
     nomeTarefa: t.nomeTarefa,
@@ -46,7 +37,7 @@ export async function MostrarTarefas() {
     prioridade: t.prioridade,
     data: t.data,
     idProjeto: t.idProjeto?.toString() ?? null,
-    projetoNome: t.projetoNome ?? "",
+    projetoNome: mapaNomes.get(t.idProjeto?.toString() ?? "") ?? "",
   }));
 }
 

@@ -24,7 +24,7 @@ export function MostrarTarefasClient({ atualizar, onChange, filtros }) {
   }, [atualizar]);
 
   const lista = useMemo(() => {
-    const nq = norm(filtros?.q || "");
+    const nq = norm(filtros?.search || "");
     const fStatus = filtros?.status || "";
     const fPrio = filtros?.prioridade || "";
 
@@ -44,9 +44,10 @@ export function MostrarTarefasClient({ atualizar, onChange, filtros }) {
 
   return (
     <>
+      {/* Percorre a lista e para cada item t ele retorna as divs */}
       {lista.map((t) => (
         <div
-          key={t.id ?? i}
+          key={t.id}
           className={`grid ${COLS} items-center px-4 py-3  border-t border-gray-200 hover:bg-gray-50`}
         >
           <div className="truncate text-sm">{t.nomeTarefa}</div>
